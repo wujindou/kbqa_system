@@ -88,7 +88,7 @@ def pipeline_predict(question):
     ner_results = get_ner_results(question)
     if not ner_results:
         print('没有提取出主题词！')
-        return (None,'')
+        return None,''
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
     candidate_entities = get_candidate_entities(ner_results)
@@ -136,5 +136,13 @@ def pipeline_predict(question):
     print(best_answer)
     return best_triple,best_answer
 
-question ='马云的老婆是谁？'
-pipeline_predict(question)
+# question ='马云的老婆是谁？'
+# pipeline_predict(question)
+writer = open('/kaggle/working/train_result.json','a+',encoding='utf-8')
+train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
+for d in train_data:
+    q_id = d['id']
+    t_triple,t_answer = pipeline_predict(d['question'])
+    d['result'] = {'triple':t_triple,'best_answer':t_answer}
+    writer.write(json.dumps(d,ensure_ascii=False)+'\n')
+writer.close()
