@@ -132,6 +132,8 @@ def pipeline_predict(question):
         best_answer = triples_with_score[0][0][-1]
         print(triples_with_score[0][0])
         print('■最佳答案：', best_answer)
+    print(best_triple)
+    print(best_answer)
 
 question ='马云的老婆是谁？'
 pipeline_predict(question)
