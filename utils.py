@@ -140,7 +140,8 @@ def pipeline_predict(question):
 # pipeline_predict(question)
 writer = open('/kaggle/working/train_result.json','a+',encoding='utf-8')
 train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
-for d in train_data:
+from tqdm import tqdm 
+for d in tqdm(train_data):
     q_id = d['id']
     t_triple,t_answer = pipeline_predict(d['question'])
     d['result'] = {'triple':t_triple,'best_answer':t_answer}
