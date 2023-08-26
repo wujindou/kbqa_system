@@ -52,7 +52,8 @@ cls_config = CLSConfig()
 ner_config.best_model_path='/kaggle/input/kbqadata/ernie_ner_best.pdparams'
 cls_config.best_model_path='/kaggle/input/kbqadata/ernie_cls_best.pdparams'
 
-def pipeline_predict(question):
+
+def get_ner_results(question):
     ner_results = ner_predict(ner_config.best_model_path, question)
     ner_results = set([_result.replace("《", "").replace("》", "") for _result in ner_results])
     # ner_results是一个set，可能有0个、1个或多个元素。如果是0个元素尝试以下规则看能否提取出实体
@@ -61,15 +62,36 @@ def pipeline_predict(question):
             ner_results = re.search(r'(.*)的.*是.*', question).group(1)
         elif re.search(r'', question):  
             ner_results = re.search(r'(.*)的.*是.*', question).group(1)
-        else:
-            print('没有提取出主题词！')
-            return()
+        return ner_results 
+    return ner_results
 
-    print('■识别到的主题词：', ner_results, datetime.datetime.now())
-
+def get_candidate_entities(ner_results):
     candidate_entities = []
     for mention in ner_results:
         candidate_entities.extend(entity_linking(mention2entity_dict, mention))
+    return candidate_entities
+
+def get_candidate_triples(candidate_entities):
+    forward_candidate_triples = search_triples_by_index(candidate_entities, forward_index, forward_KG_f)
+    candidate_triples = forward_candidate_triples
+    candidate_triples = list(filter(lambda x: len(x) == 3, candidate_triples))
+    return candidate_triples
+
+def get_predict_triples(question,candidate_triples):
+    candidate_triples_labels = cls_predict(cls_config.best_model_path, [question]*len(candidate_triples), [triple[0]+triple[1] for triple in candidate_triples])
+    predict_triples = [candidate_triples[i] for i in range(len(candidate_triples)) if candidate_triples_labels[i] == '1']
+    print('■三元组粗分类结果，保留以下三元组：', predict_triples)
+    return predict_triples 
+    
+
+def pipeline_predict(question):
+    ner_results = get_ner_results(question)
+    if not ner_results:
+        print('没有提取出主题词！')
+        return ()
+    print('■识别到的主题词：', ner_results, datetime.datetime.now())
+
+    candidate_entities = get_candidate_entities(ner_results)
     print('■找到的候选实体：', candidate_entities, datetime.datetime.now())
 
     forward_candidate_triples = search_triples_by_index(candidate_entities, forward_index, forward_KG_f)
@@ -85,9 +107,11 @@ def pipeline_predict(question):
     print('■三元组粗分类结果，保留以下三元组：', predict_triples)
 
     predict_answers = [_triple[2] for _triple in predict_triples]
+    best_triple = None 
+    best_answer = ''
     if len(predict_answers) == 0:
         print('■知识库中没有检索到相关知识，请换一个问题试试......')
-        return()
+        #return()
     elif len(set(predict_answers)) == 1:  # 预测的答案只有一个，尽管提供答案的三元组可能有多个
         print('■预测答案唯一，直接输出......')
         best_triple = predict_triples[0]
@@ -106,7 +130,8 @@ def pipeline_predict(question):
         triples_with_score.sort(key=lambda x: x[1], reverse=True)
         print('■三元组排序结果：\n{}'.format("\n".join([str(pair[0]) + '-->' + str(pair[1]) for pair in triples_with_score])))
         best_answer = triples_with_score[0][0][-1]
+        print(triples_with_score[0][0])
         print('■最佳答案：', best_answer)
 
-question ='运动员达斯汀·约翰逊在2010PGA锦标赛取得了什么成绩？'
+question ='马云的老婆是谁？'
 pipeline_predict(question)
