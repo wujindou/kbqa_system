@@ -141,9 +141,11 @@ def pipeline_predict(question):
 writer = open('/kaggle/working/train_result.json','a+',encoding='utf-8')
 train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
 from tqdm import tqdm 
-for d in tqdm(train_data):
+for t_idx,d in tqdm(enumerate((train_data))):
+    if t_idx<=57:continue 
     q_id = d['id']
     t_triple,t_answer,ner = pipeline_predict(d['question'])
     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner)}
+    print(d)
     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
 writer.close()
