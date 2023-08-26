@@ -88,7 +88,7 @@ def pipeline_predict(question):
     ner_results = get_ner_results(question)
     if not ner_results:
         print('没有提取出主题词！')
-        return ()
+        return (None,'')
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
     candidate_entities = get_candidate_entities(ner_results)
@@ -130,10 +130,11 @@ def pipeline_predict(question):
         triples_with_score.sort(key=lambda x: x[1], reverse=True)
         print('■三元组排序结果：\n{}'.format("\n".join([str(pair[0]) + '-->' + str(pair[1]) for pair in triples_with_score])))
         best_answer = triples_with_score[0][0][-1]
-        print(triples_with_score[0][0])
+        best_triple =triples_with_score[0][0]
         print('■最佳答案：', best_answer)
     print(best_triple)
     print(best_answer)
+    return best_triple,best_answer
 
 question ='马云的老婆是谁？'
 pipeline_predict(question)
