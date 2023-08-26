@@ -144,6 +144,6 @@ from tqdm import tqdm
 for d in tqdm(train_data):
     q_id = d['id']
     t_triple,t_answer,ner = pipeline_predict(d['question'])
-    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':ner}
+    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner)}
     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
 writer.close()
