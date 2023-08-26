@@ -1,0 +1,8 @@
+gensim
+python_Levenshtein==0.12.2
+paddlepaddle==2.4.2
+paddlenlp==2.0.7
+fastapi 
+nest-asyncio
+pyngrok
+uvicorn
