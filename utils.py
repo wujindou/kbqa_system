@@ -88,7 +88,7 @@ def pipeline_predict(question):
     ner_results = get_ner_results(question)
     if not ner_results:
         print('没有提取出主题词！')
-        return None,''
+        return None,'',ner_results
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
     candidate_entities = get_candidate_entities(ner_results)
@@ -134,7 +134,7 @@ def pipeline_predict(question):
         print('■最佳答案：', best_answer)
     print(best_triple)
     print(best_answer)
-    return best_triple,best_answer
+    return best_triple,best_answer,ner_results
 
 # question ='马云的老婆是谁？'
 # pipeline_predict(question)
@@ -143,7 +143,7 @@ train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
 from tqdm import tqdm 
 for d in tqdm(train_data):
     q_id = d['id']
-    t_triple,t_answer = pipeline_predict(d['question'])
-    d['result'] = {'triple':t_triple,'best_answer':t_answer}
+    t_triple,t_answer,ner = pipeline_predict(d['question'])
+    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':ner}
     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
 writer.close()
