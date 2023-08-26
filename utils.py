@@ -1,5 +1,7 @@
+from work.TopicWordRecognization.run_ner import load_ner_model
 from work.TopicWordRecognization.run_ner import predict as ner_predict
 from work.CandidateTriplesSelection.run_cls import predict as cls_predict
+from work.CandidateTriplesSelection.run_cls import load_cls_model
 from work.CandidateTriplesLookup.knowledge_retrieval import entity_linking, search_triples_by_index
 from work.AnswerRanking.ranking import span_question, score_similarity
 from work.config import KGConfig, CLSConfig, NERConfig
@@ -51,10 +53,12 @@ ner_config = NERConfig()
 cls_config = CLSConfig()
 ner_config.best_model_path='/kaggle/input/kbqadata/ernie_ner_best.pdparams'
 cls_config.best_model_path='/kaggle/input/kbqadata/ernie_cls_best.pdparams'
+ner_model,ner_tokenizer = load_ner_model(ner_config.best_model_path)
+cls_model,cls_tokenizer = load_cls_model(cls_config.best_model_path)
 
 
 def get_ner_results(question):
-    ner_results = ner_predict(ner_config.best_model_path, question)
+    ner_results = ner_predict(ner_model,ner_tokenizer, question)
     ner_results = set([_result.replace("《", "").replace("》", "") for _result in ner_results])
     # ner_results是一个set，可能有0个、1个或多个元素。如果是0个元素尝试以下规则看能否提取出实体
     if not ner_results:
@@ -78,7 +82,7 @@ def get_candidate_triples(candidate_entities):
     return candidate_triples
 
 def get_predict_triples(question,candidate_triples):
-    candidate_triples_labels = cls_predict(cls_config.best_model_path, [question]*len(candidate_triples), [triple[0]+triple[1] for triple in candidate_triples])
+    candidate_triples_labels = cls_predict(cls_model,cls_tokenizer, [question]*len(candidate_triples), [triple[0]+triple[1] for triple in candidate_triples])
     predict_triples = [candidate_triples[i] for i in range(len(candidate_triples)) if candidate_triples_labels[i] == '1']
     print('■三元组粗分类结果，保留以下三元组：', predict_triples)
     return predict_triples 

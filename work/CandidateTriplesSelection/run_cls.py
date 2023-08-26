@@ -95,20 +95,18 @@ def evaluate(model, data_loader, metric):
 
     return results
 
-
-def predict(model_path, input_text1, input_text2):
-    # model_path = f"{save_path}/ernie_cls_best.pdparams"
-
+def load_cls_model(model_path):
     loaded_state_dict = paddle.load(model_path)
-
     ernie = ErnieModel.from_pretrained(model_name)
     model = ErnieCLS(ernie, len(label2id), dropout=0.1)
     model.load_dict(loaded_state_dict)
-
     tokenizer = ErnieTokenizer.from_pretrained(model_name)
-    trans_func = partial(convert_example_to_feature, tokenizer=tokenizer, label2id=label2id, max_seq_len=max_seq_len)
-
     model.eval()
+    return model,tokenizer
+
+def predict(model,tokenizer, input_text1, input_text2):
+    # model_path = f"{save_path}/ernie_cls_best.pdparams"
+    trans_func = partial(convert_example_to_feature, tokenizer=tokenizer, label2id=label2id, max_seq_len=max_seq_len)
 
     if isinstance(input_text1, str) and isinstance(input_text2, str):
         features = tokenizer(input_text1, input_text2, max_seq_len=max_seq_len)

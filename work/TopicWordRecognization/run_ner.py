@@ -97,19 +97,18 @@ def evaluate(model, data_loader, metric):
 
     return results
 
-
-def predict(model_path, input_text):
-    # model_path = f"{save_path}/ernie_ner_best.pdparams"
-
+def load_ner_model(model_path):
     loaded_state_dict = paddle.load(model_path)
     ernie = ErnieModel.from_pretrained(model_name)
     model = ErnieNER(ernie, len(label2id), dropout=0.1)
     model.load_dict(loaded_state_dict)
-
-    model.eval()
-    splited_input_text = list(input_text)
-
     tokenizer = ErnieTokenizer.from_pretrained(model_name)
+    model.eval()
+    return model,tokenizer
+
+def predict(model,tokenizer, input_text):
+    # model_path = f"{save_path}/ernie_ner_best.pdparams"
+    splited_input_text = list(input_text)
     features = tokenizer(splited_input_text, is_split_into_words=True, max_seq_len=max_seq_len, return_length=True)
     input_ids = paddle.to_tensor(features["input_ids"]).unsqueeze(0)
     token_type_ids = paddle.to_tensor(features["token_type_ids"]).unsqueeze(0)
