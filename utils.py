@@ -147,7 +147,7 @@ def pipeline_predict(question):
 # question ='马云的老婆是谁？'
 # pipeline_predict(question)
 writer = open('/kaggle/working/train_result.json','a+',encoding='utf-8')
-train_data = json.load(open('./data/test.json','r',encoding='utf-8'))
+train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
 from tqdm import tqdm 
 for t_idx,d in enumerate(tqdm(train_data)):
     # if t_idx<=57:continue 
