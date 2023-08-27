@@ -65,7 +65,10 @@ def get_ner_results(question):
         if '《' in question and '》' in question:
             ner_results = re.search(r'(.*)的.*是.*', question).group(1)
         elif re.search(r'', question):  
-            ner_results = re.search(r'(.*)的.*是.*', question).group(1)
+            try:
+                ner_results = re.search(r'(.*)的.*是.*', question).group(1)
+            except Exception as e:
+                pass 
         return ner_results 
     return ner_results
 
