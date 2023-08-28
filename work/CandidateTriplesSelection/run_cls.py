@@ -142,7 +142,7 @@ def predict(model,tokenizer, input_text1, input_text2):
 
 model_name = "ernie-1.0"
 max_seq_len = 512
-batch_size = 32
+batch_size = 8
 label2id = {"0": 0, "1": 1}
 id2label = {0: "0", 1: "1"}
 
