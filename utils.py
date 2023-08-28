@@ -1,3 +1,7 @@
+import paddle 
+use_gpu = True if paddle.get_device().startswith("gpu") else False
+if use_gpu:
+    paddle.set_device("gpu:0")
 from work.TopicWordRecognization.run_ner import load_ner_model
 from work.TopicWordRecognization.run_ner import predict as ner_predict
 from work.CandidateTriplesSelection.run_cls import predict as cls_predict
