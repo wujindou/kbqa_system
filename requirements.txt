@@ -1,7 +1,7 @@
 gensim
+paddlepaddle-gpu
 python_Levenshtein==0.12.2
-paddlepaddle-gpu==2.4.2
-paddlenlp==2.0.7
+paddlenlp
 fastapi 
 nest-asyncio
 pyngrok
