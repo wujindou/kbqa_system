@@ -5,6 +5,7 @@ from work.CandidateTriplesSelection.run_cls import load_cls_model
 from work.CandidateTriplesLookup.knowledge_retrieval import entity_linking, search_triples_by_index
 from work.AnswerRanking.ranking import span_question, score_similarity
 from work.config import KGConfig, CLSConfig, NERConfig
+import gc 
 import jieba
 import gensim
 import datetime
@@ -155,5 +156,6 @@ for t_idx,d in enumerate(tqdm(train_data)):
     t_triple,t_answer,ner = pipeline_predict(d['question'])
     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner)}
     print(d)
+    gc.collect()
     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
 writer.close()
