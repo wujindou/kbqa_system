@@ -1,5 +1,5 @@
 gensim
-paddlepaddle==2.2.0
+paddlepaddle==2.4.2
 python_Levenshtein==0.12.2
 paddlenlp==2.0.7
 fastapi 
