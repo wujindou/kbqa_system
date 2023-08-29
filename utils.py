@@ -23,7 +23,7 @@ from tools import *
 
 KGconfig = KGConfig()
 KGconfig.mention2entity_clean_path='/kaggle/input/kbqadata/nlpcc-iccpol-2016_mention2id_clean.json'
-KGconfig.knowledge_graph_path='/kaggle/input/kbqadata/nlpcc-iccpol-2016.kbqa.kb/nlpcc-iccpol-2016.kbqa.kb'
+KGconfig.knowledge_graph_path='/kaggle/input/kbqadata/nlpcc-iccpol-2016.kbqa.kb2/nlpcc-iccpol-2016.kbqa.kb'
 
 mention2entity_clean_path = KGconfig.mention2entity_clean_path
 knowledge_graph_path = KGconfig.knowledge_graph_path
