@@ -1,6 +1,6 @@
 #coding:utf-8
-import paddle 
-paddle.set_device("gpu:0")
+# import paddle 
+# paddle.set_device("gpu:0")
 from work.TopicWordRecognization.run_ner import load_ner_model
 from work.TopicWordRecognization.run_ner import predict as ner_predict
 from work.CandidateTriplesSelection.run_cls import predict as cls_predict
@@ -150,15 +150,15 @@ def pipeline_predict(question):
 
 question ='马云的老婆是谁？'
 pipeline_predict(question)
-writer = open('/kaggle/working/train_result_0829.json','a+',encoding='utf-8')
-train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
-from tqdm import tqdm 
-for t_idx,d in enumerate(tqdm(train_data)):
-    if t_idx<=350:continue 
-    q_id = d['id']
-    t_triple,t_answer,ner = pipeline_predict(d['question'])
-    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner)}
-    print(d)
-    gc.collect()
-    writer.write(json.dumps(d,ensure_ascii=False)+'\n')
-writer.close()
+# writer = open('/kaggle/working/train_result_0829.json','a+',encoding='utf-8')
+# train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
+# from tqdm import tqdm 
+# for t_idx,d in enumerate(tqdm(train_data)):
+#     if t_idx<=350:continue 
+#     q_id = d['id']
+#     t_triple,t_answer,ner = pipeline_predict(d['question'])
+#     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner)}
+#     print(d)
+#     gc.collect()
+#     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
+# writer.close()
