@@ -144,7 +144,7 @@ batch_size = 32
 label2id = {"O": 0, "B-LOC": 1, "I-LOC": 2}
 id2label = {0: "O", 1: "B-LOC", 2: "I-LOC"}
 
-num_epoch = 10
+num_epoch = 5
 learning_rate = 2e-5
 weight_decay = 0.01
 warmup_proportion = 0.1
