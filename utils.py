@@ -55,7 +55,7 @@ print('打印20条以内的三元组：')
 
 ner_config = NERConfig()
 cls_config = CLSConfig()
-ner_config.best_model_path='/kaggle/input/kbqadata/ernie_ner_best.pdparams'
+ner_config.best_model_path='/kaggle/input/kbqadata/kbqa_ernie_ner_best.pdparams'
 cls_config.best_model_path='/kaggle/input/kbqadata/ernie_cls_best.pdparams'
 ner_model,ner_tokenizer = load_ner_model(ner_config.best_model_path)
 cls_model,cls_tokenizer = load_cls_model(cls_config.best_model_path)
