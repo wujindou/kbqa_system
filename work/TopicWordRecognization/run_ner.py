@@ -1,4 +1,6 @@
 import logging
+import sys 
+sys.path.append('/kaggle/working/kbqa_system')
 from work.TopicWordRecognization.utils import read, convert_example_to_feature, set_seed, SeqEntityScore
 from work.TopicWordRecognization.model import ErnieNER
 from functools import partial
