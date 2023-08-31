@@ -14,6 +14,7 @@ def read(data_path):
                 all_sample_labels.append(tmp_sample_labels)
                 tmp_sample_words, tmp_sample_labels = [], []
             else:
+                if len(line.strip().split(' '))!=2:continue
                 word, label = line.strip().split(' ')[0], line.strip().split(' ')[1]
                 tmp_sample_words.append(word)
                 tmp_sample_labels.append(label)
