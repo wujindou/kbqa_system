@@ -155,7 +155,7 @@ seed = 1000
 
 train_path = './data/train.char.bmes'
 dev_path = './data/dev.char.bmes'
-save_path = "./checkpoint"
+save_path = "/kaggle/working/kbqa_system/checkpoint/"
 
 # envir setting
 set_seed(seed)
@@ -164,7 +164,7 @@ if use_gpu:
     paddle.set_device("gpu:0")
 
 if __name__ == '__main__':
-    # train()
+    train()
 
     pred_model_path = NERConfig().best_model_path
     input_text = '谁是《全金属狂潮》的色彩设计者？'
