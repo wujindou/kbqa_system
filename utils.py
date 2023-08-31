@@ -99,7 +99,7 @@ def pipeline_predict(question):
     ner_results = get_ner_results(question)
     if not ner_results:
         print('没有提取出主题词！')
-        return None,'',ner_results
+        return None,'',ner_results,[],[]
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
     candidate_entities = get_candidate_entities(ner_results)
@@ -146,19 +146,19 @@ def pipeline_predict(question):
         print('■最佳答案：', best_answer)
     print(best_triple)
     print(best_answer)
-    return best_triple,best_answer,ner_results
+    return best_triple,best_answer,ner_results,candidate_entities,predict_triples
 
-question ='马云的老婆是谁？'
-pipeline_predict(question)
-# writer = open('/kaggle/working/train_result_0829.json','a+',encoding='utf-8')
-# train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
-# from tqdm import tqdm 
-# for t_idx,d in enumerate(tqdm(train_data)):
-#     if t_idx<=350:continue 
-#     q_id = d['id']
-#     t_triple,t_answer,ner = pipeline_predict(d['question'])
-#     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner)}
-#     print(d)
-#     gc.collect()
-#     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
-# writer.close()
+# question ='马云的老婆是谁？'
+# pipeline_predict(question)
+writer = open('/kaggle/working/train_result_0829.json','a+',encoding='utf-8')
+train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
+from tqdm import tqdm 
+for t_idx,d in enumerate(tqdm(train_data)):
+    # if t_idx<=350:continue 
+    q_id = d['id']
+    t_triple,t_answer,ner,candidate_entities,predict_triples= pipeline_predict(d['question'])
+    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples}
+    print(d)
+    gc.collect()
+    writer.write(json.dumps(d,ensure_ascii=False)+'\n')
+writer.close()
