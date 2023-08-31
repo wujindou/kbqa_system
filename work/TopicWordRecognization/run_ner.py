@@ -153,8 +153,8 @@ log_step = 10
 eval_step = 30
 seed = 1000
 
-train_path = './data/train.char.bmes'
-dev_path = './data/dev.char.bmes'
+train_path = './data/train.kbqa.char.bmes'
+dev_path = './data/dev.kbqa.char.bmes'
 save_path = "/kaggle/working/kbqa_system/checkpoint/"
 
 # envir setting
