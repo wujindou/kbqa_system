@@ -76,8 +76,8 @@ def train():
                 ner_result = ner_results["Total"]
                 model.train()
                 ner_f1 = ner_result["F1"]
-                # if ner_f1 > ner_best_f1:
-                #     paddle.save(model.state_dict(), f"{save_path}/ernie_ner_best.pdparams")
+                if ner_f1 > ner_best_f1:
+                    paddle.save(model.state_dict(), f"{save_path}/ernie_ner_best.pdparams")
                 if ner_f1 > ner_best_f1:
                     print(f"\nner best F1 performence has been updated: {ner_best_f1:.5f} --> {ner_f1:.5f}")
                     ner_best_f1 = ner_f1
@@ -166,7 +166,7 @@ if use_gpu:
 if __name__ == '__main__':
     train()
 
-    pred_model_path = NERConfig().best_model_path
-    input_text = '谁是《全金属狂潮》的色彩设计者？'
-    pred_results = predict(pred_model_path, input_text)
-    print(pred_results)
+    # pred_model_path = NERConfig().best_model_path
+    # input_text = '谁是《全金属狂潮》的色彩设计者？'
+    # pred_results = predict(pred_model_path, input_text)
+    # print(pred_results)
