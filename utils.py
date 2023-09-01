@@ -66,12 +66,12 @@ def get_ner_results(question):
     ner_results = set([_result.replace("《", "").replace("》", "") for _result in ner_results])
     # ner_results是一个set，可能有0个、1个或多个元素。如果是0个元素尝试以下规则看能否提取出实体
     if not ner_results:
-        if '《' in question and '》' in question:
-            ner_results = re.search(r'(.*)的.*是.*', question).group(1)
-        elif re.search(r'', question):  
-            try:
+        try:
+            if '《' in question and '》' in question:
                 ner_results = re.search(r'(.*)的.*是.*', question).group(1)
-            except Exception as e:
+            elif re.search(r'', question):  
+                ner_results = re.search(r'(.*)的.*是.*', question).group(1)
+        except Exception as e:
                 pass 
         return ner_results 
     return ner_results
