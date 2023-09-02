@@ -1,6 +1,6 @@
 #coding:utf-8
-# import paddle 
-# paddle.set_device("gpu:0")
+import paddle 
+paddle.set_device("gpu:0")
 from work.TopicWordRecognization.run_ner import load_ner_model
 from work.TopicWordRecognization.run_ner import predict as ner_predict
 from work.CandidateTriplesSelection.run_cls import predict as cls_predict
@@ -150,7 +150,7 @@ def pipeline_predict(question):
 
 # question ='马云的老婆是谁？'
 # pipeline_predict(question)
-writer = open('/kaggle/working/test_result_0831.json','a+',encoding='utf-8')
+writer = open('/kaggle/working/test_result_0902.json','a+',encoding='utf-8')
 train_data = json.load(open('./data/test.json','r',encoding='utf-8'))
 from tqdm import tqdm 
 for t_idx,d in enumerate(tqdm(train_data)):
