@@ -102,7 +102,7 @@ def pipeline_predict(question):
         return None,'',ner_results,[],[]
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
-    candidate_entities = get_candidate_entities(ner_results)
+    candidate_entities = get_candidate_entities(ner_results)[:50]
     print('■找到的候选实体：', candidate_entities, datetime.datetime.now())
 
     forward_candidate_triples = search_triples_by_index(candidate_entities, forward_index, forward_KG_f)
