@@ -148,17 +148,17 @@ def pipeline_predict(question):
     print(best_answer)
     return best_triple,best_answer,ner_results,candidate_entities,predict_triples
 
-# question ='马云的老婆是谁？'
+# # question ='马云的老婆是谁？'
 # pipeline_predict(question)
-# writer = open('/kaggle/working/train_result_0905_1994.json','a+',encoding='utf-8')
-# train_data = json.load(open('./data/test.json','r',encoding='utf-8'))
-# from tqdm import tqdm 
-# for t_idx,d in enumerate(tqdm(train_data)):
-#     if t_idx<=1993:continue 
-#     q_id = d['id']
-#     t_triple,t_answer,ner,candidate_entities,predict_triples= pipeline_predict(d['question'])
-#     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples}
-#     print(d)
-#     gc.collect()
-#     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
-# writer.close()
+writer = open('/kaggle/working/train_result_0905_1994.json','a+',encoding='utf-8')
+train_data = json.load(open('./data/test.json','r',encoding='utf-8'))
+from tqdm import tqdm 
+for t_idx,d in enumerate(tqdm(train_data)):
+    if t_idx<=1993:continue 
+    q_id = d['id']
+    t_triple,t_answer,ner,candidate_entities,predict_triples= pipeline_predict(d['question'])
+    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples}
+    print(d)
+    gc.collect()
+    writer.write(json.dumps(d,ensure_ascii=False)+'\n')
+writer.close()
