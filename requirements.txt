@@ -1,5 +1,5 @@
 gensim
-paddlepaddle-gpu
+paddlepaddle-gpu==2.5.1
 python_Levenshtein==0.12.2
 paddlenlp
 fastapi 
