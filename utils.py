@@ -149,7 +149,7 @@ def pipeline_predict(question):
     return best_triple,best_answer,ner_results,candidate_entities,predict_triples
 
 # question ='马云的老婆是谁？'
-pipeline_predict(question)
+# pipeline_predict(question)
 writer = open('/kaggle/working/test_sub_result_0906.json','a+',encoding='utf-8')
 train_data = json.load(open('./data/multi_test.json','r',encoding='utf-8'))
 from tqdm import tqdm 
