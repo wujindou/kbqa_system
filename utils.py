@@ -100,7 +100,7 @@ def pipeline_predict(question):
     if not ner_results:
         print('没有提取出主题词！')
         return None,'',ner_results,[],[]
-    ner_results = ner_results[:3]
+    ner_results = set(list(ner_results)[:3])
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
     candidate_entities = get_candidate_entities(ner_results)[:50]
