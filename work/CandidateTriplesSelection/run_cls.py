@@ -1,4 +1,6 @@
 import logging
+import sys 
+sys.path.append('/kaggle/working/kbqa_system')
 from work.CandidateTriplesSelection.utils import read, convert_example_to_feature, set_seed, ClassificationScore, read_test
 from work.CandidateTriplesSelection.model import ErnieCLS
 from functools import partial
