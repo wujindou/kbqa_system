@@ -155,7 +155,7 @@ log_step = 50
 eval_step = 400  # (len(train_loader)//batch_size)//20
 seed = 1000
 
-train_path = './data/train.tsv'
+train_path = './data/train_kbqa.tsv'
 dev_path = './data/dev.tsv'
 save_path = "./checkpoint"
 
@@ -166,7 +166,7 @@ if use_gpu:
     paddle.set_device("gpu:0")
 
 if __name__ == '__main__':
-    # train()
+    train()
 
     pred_model_path = CLSConfig().best_model_path
 
