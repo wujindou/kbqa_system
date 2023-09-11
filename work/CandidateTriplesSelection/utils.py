@@ -8,6 +8,7 @@ def read(data_path):
     all_sample_text1, all_sample_text2, all_sample_labels = [], [], []
     with open(data_path, 'r', encoding='utf-8') as f:
         for line in f.readlines():
+            if len(line.strip().split('\t'))<3:continue
             text1, text2, label = line.strip().split('\t')
             all_sample_text1.append(text1)
             all_sample_text2.append(text2)
