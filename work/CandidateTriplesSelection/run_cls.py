@@ -168,7 +168,7 @@ if use_gpu:
     paddle.set_device("gpu:0")
 
 if __name__ == '__main__':
-    train()
+    #train()
 
     pred_model_path = CLSConfig().best_model_path
 
