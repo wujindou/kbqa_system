@@ -95,11 +95,12 @@ def get_predict_triples(question,candidate_triples):
     return predict_triples 
     
 
-def pipeline_predict(question):
+def pipeline_predict(question,return_candidate_triples=True):
     ner_results = get_ner_results(question)
     if not ner_results:
         print('没有提取出主题词！')
-        return None,'',ner_results,[],[]
+        return (None,'',ner_results,[],[]) if not return_candidate_triples else (None,'',ner_results,[],[],[])
+        
     ner_results = set(list(ner_results)[:3])
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
@@ -147,17 +148,23 @@ def pipeline_predict(question):
         print('■最佳答案：', best_answer)
     print(best_triple)
     print(best_answer)
-    return best_triple,best_answer,ner_results,candidate_entities,predict_triples
+    if not return_candidate_triples:
+        return best_triple,best_answer,ner_results,candidate_entities,predict_triples
+    else:
+        return best_triple,best_answer,ner_results,candidate_entities,predict_triples,candidate_triples
+        
 
-# question ='马云的老婆是谁？'
-# pipeline_predict(question)
-# writer = open('/kaggle/working/test_result_0912.json','a+',encoding='utf-8')
-# train_data = json.load(open('./data/test.json','r',encoding='utf-8'))
-# from tqdm import tqdm 
-# for t_idx,d in enumerate(tqdm(train_data)):
-#     q_id = d['id']
-#     t_triple,t_answer,ner,candidate_entities,predict_triples= pipeline_predict(d['question'])
-#     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples}
-#     gc.collect()
-#     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
-# writer.close()
+question ='马云的老婆是谁？'
+pipeline_predict(question)
+writer = open('/kaggle/working/test_result_0912_qwen.json','a+',encoding='utf-8')
+train_data = json.load(open('./data/test.json','r',encoding='utf-8'))
+test_queries = set([line.strip() for line in open('./data/test_chatqwen_0912.txt','r',encoding='utf-8')])
+from tqdm import tqdm 
+for t_idx,d in enumerate(tqdm(train_data)):
+    q_id = d['id']
+    if d['question'] not in test_queries:continue 
+    t_triple,t_answer,ner,candidate_entities,predict_triples,candidate_triples= pipeline_predict(d['question'])
+    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples,'candidate_triples':candidate_triples}
+    gc.collect()
+    writer.write(json.dumps(d,ensure_ascii=False)+'\n')
+writer.close()
