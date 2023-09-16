@@ -97,10 +97,10 @@ def get_predict_triples(question,candidate_triples):
 
 def pipeline_predict(question,return_candidate_triples=True):
     ner_results = get_ner_results(question)
+    ner_results = set([ner for ner in ner_results if ner.strip()!=''])
     if not ner_results:
         print('没有提取出主题词！')
         return (None,'',ner_results,[],[]) if not return_candidate_triples else (None,'',ner_results,[],[],[])
-        
     ner_results = set(list(ner_results)[:3])
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
@@ -154,17 +154,17 @@ def pipeline_predict(question,return_candidate_triples=True):
         return best_triple,best_answer,ner_results,candidate_entities,predict_triples,candidate_triples
         
 
-# question ='马云的老婆是谁？'
-# pipeline_predict(question)
-# writer = open('/kaggle/working/test_result_multi_qwen_0914.json','a+',encoding='utf-8')
-# train_data = json.load(open('./data/multi_test_0914.json','r',encoding='utf-8'))
-# # test_queries = set([line.strip() for line in open('./data/test_chatqwen_0912.txt','r',encoding='utf-8')])
-# from tqdm import tqdm 
-# for t_idx,d in enumerate(tqdm(train_data)):
-#     q_id = d['id']
-#     # if d['question'] not in test_queries:continue 
-#     t_triple,t_answer,ner,candidate_entities,predict_triples,candidate_triples= pipeline_predict(d['question'])
-#     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples,'candidate_triples':candidate_triples}
-#     gc.collect()
-#     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
-# writer.close()
+question ='马云的老婆是谁？'
+pipeline_predict(question)
+writer = open('/kaggle/working/train_result_qwen_0916.json','a+',encoding='utf-8')
+train_data = json.load(open('./data/train.json','r',encoding='utf-8'))
+# test_queries = set([line.strip() for line in open('./data/test_chatqwen_0912.txt','r',encoding='utf-8')])
+from tqdm import tqdm 
+for t_idx,d in enumerate(tqdm(train_data)):
+    q_id = d['id']
+    # if d['question'] not in test_queries:continue 
+    t_triple,t_answer,ner,candidate_entities,predict_triples,candidate_triples= pipeline_predict(d['question'])
+    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples,'candidate_triples':candidate_triples}
+    gc.collect()
+    writer.write(json.dumps(d,ensure_ascii=False)+'\n')
+writer.close()
