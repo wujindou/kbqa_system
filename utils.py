@@ -115,7 +115,7 @@ def pipeline_predict(question,return_candidate_triples=True):
     show_num = 20 if candidate_triples_num > 20 else candidate_triples_num
     print('■展示前{}条候选三元组：{}'.format(show_num, candidate_triples[:show_num]))
 
-    # candidate_triples_labels = cls_predict(cls_config.best_model_path, [question]*len(candidate_triples), [triple[0]+triple[1] for triple in candidate_triples])
+    # candidate_triples_labels = cls_predict(cls_config.best_model_path, [question]*len(candidate_triples), [triple[0]+triple[1].replace(' ','') for triple in candidate_triples])
     # predict_triples = [candidate_triples[i] for i in range(len(candidate_triples)) if candidate_triples_labels[i] == '1']
     predict_triples = get_predict_triples(question,candidate_triples)
     # print('■三元组粗分类结果，保留以下三元组：', predict_triples)
