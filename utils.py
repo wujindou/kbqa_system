@@ -157,7 +157,7 @@ def pipeline_predict(question,return_candidate_triples=True):
 # question ='马云的老婆是谁？'
 # pipeline_predict(question)
 writer = open('/kaggle/working/train_mulit_qwen_0918.json','a+',encoding='utf-8')
-train_data = json.load(open('./data/test_multi_ensemble_0918.json','r',encoding='utf-8'))
+train_data = json.load(open('./data/test_multi_0919.json','r',encoding='utf-8'))
 # test_queries = set([line.strip() for line in open('./data/test_chatqwen_0912.txt','r',encoding='utf-8')])
 from tqdm import tqdm 
 for t_idx,d in enumerate(tqdm(train_data)):
