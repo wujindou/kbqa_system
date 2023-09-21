@@ -139,7 +139,7 @@ def predict(model,tokenizer, input_text):
 
 
 model_name = "ernie-1.0"
-model_name = "ERNIE3.0-Base"
+# model_name = "ERNIE3.0-Base"
 max_seq_len = 512
 batch_size = 32
 label2id = {"O": 0, "B-LOC": 1, "I-LOC": 2}
@@ -165,7 +165,8 @@ if use_gpu:
     paddle.set_device("gpu:0")
 
 if __name__ == '__main__':
-    train()
+    pass
+    # train()
 
     # pred_model_path = NERConfig().best_model_path
     # input_text = '谁是《全金属狂潮》的色彩设计者？'
