@@ -77,7 +77,7 @@ def get_ner_results(question):
         return ner_results 
     return ner_results
 def get_ner_results_v1(question):
-    ner_results = ner_predict(ner_model_v1,ner_model_v1, question)
+    ner_results = ner_predict(ner_model_v1,ner_tokenizer_v1, question)
     ner_results = set([_result.replace("《", "").replace("》", "") for _result in ner_results])
     # ner_results是一个set，可能有0个、1个或多个元素。如果是0个元素尝试以下规则看能否提取出实体
     if not ner_results:
