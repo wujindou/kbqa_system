@@ -113,7 +113,12 @@ def get_predict_triples(question,candidate_triples):
 def pipeline_predict(question,return_candidate_triples=True):
     ner_results = get_ner_results(question)
     ner_results = set([ner for ner in ner_results if ner.strip()!=''])
-    
+    if not ner_results :
+        ner_results_v1 = get_ner_results_v1(question)
+        if len(ner_results_v1)>0:
+            ner_results = ner_results_v1
+
+        
     if not ner_results:
         print('没有提取出主题词！')
         return (None,'',ner_results,[],[]) if not return_candidate_triples else (None,'',ner_results,[],[],[])
