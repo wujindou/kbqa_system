@@ -139,6 +139,7 @@ def predict(model,tokenizer, input_text):
 
 
 model_name = "ernie-1.0"
+model_name = "ERNIE3.0-Base"
 max_seq_len = 512
 batch_size = 32
 label2id = {"O": 0, "B-LOC": 1, "I-LOC": 2}
