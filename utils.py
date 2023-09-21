@@ -58,11 +58,26 @@ cls_config = CLSConfig()
 ner_config.best_model_path='/kaggle/input/kbqadata/kbqa_ernie_ner_best.pdparams'
 cls_config.best_model_path='/kaggle/input/kbqadata/kbqa_ernie_cls_best.pdparams'
 ner_model,ner_tokenizer = load_ner_model(ner_config.best_model_path)
+ner_model_v1,ner_tokenizer_v1 = load_ner_model('/kaggle/input/kbqadata/ernie_ner_best.pdparams')
 cls_model,cls_tokenizer = load_cls_model(cls_config.best_model_path)
 
 
 def get_ner_results(question):
     ner_results = ner_predict(ner_model,ner_tokenizer, question)
+    ner_results = set([_result.replace("《", "").replace("》", "") for _result in ner_results])
+    # ner_results是一个set，可能有0个、1个或多个元素。如果是0个元素尝试以下规则看能否提取出实体
+    if not ner_results:
+        try:
+            if '《' in question and '》' in question:
+                ner_results = re.search(r'(.*)的.*是.*', question).group(1)
+            elif re.search(r'', question):  
+                ner_results = re.search(r'(.*)的.*是.*', question).group(1)
+        except Exception as e:
+                pass 
+        return ner_results 
+    return ner_results
+def get_ner_results_v1(question):
+    ner_results = ner_predict(ner_model_v1,ner_model_v1, question)
     ner_results = set([_result.replace("《", "").replace("》", "") for _result in ner_results])
     # ner_results是一个set，可能有0个、1个或多个元素。如果是0个元素尝试以下规则看能否提取出实体
     if not ner_results:
@@ -98,10 +113,19 @@ def get_predict_triples(question,candidate_triples):
 def pipeline_predict(question,return_candidate_triples=True):
     ner_results = get_ner_results(question)
     ner_results = set([ner for ner in ner_results if ner.strip()!=''])
+    
     if not ner_results:
         print('没有提取出主题词！')
         return (None,'',ner_results,[],[]) if not return_candidate_triples else (None,'',ner_results,[],[],[])
     ner_results = set(list(ner_results)[:3])
+    ner_result = [ner for ner in ner_results if len(ner) == 1]
+    if len(ner_result) == 1:
+        ner_results = [ner for ner in ner_results if len(ner)>1]
+    elif len(ner_result)>=2:
+        ner_results_v1 = get_ner_results_v1(question)
+        if len(ner_results_v1)>0:
+            ner_results = ner_results_v1
+    
     print('■识别到的主题词：', ner_results, datetime.datetime.now())
 
     candidate_entities = get_candidate_entities(ner_results)[:50]
