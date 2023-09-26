@@ -157,8 +157,12 @@ log_step = 50
 eval_step = 400  # (len(train_loader)//batch_size)//20
 seed = 1000
 
-train_path = './data/train_kbqa.tsv'
-dev_path = './data/dev.tsv'
+#train_path = './data/train_kbqa.tsv'
+#dev_path = './data/dev.tsv'
+
+
+train_path = './data/train_merge_cls.tsv'
+dev_path = './data/dev_merge_cls.tsv'
 save_path = "./checkpoint"
 
 # envir setting
@@ -168,27 +172,27 @@ if use_gpu:
     paddle.set_device("gpu:0")
 
 if __name__ == '__main__':
-    #train()
+    train()
 
-    pred_model_path = CLSConfig().best_model_path
+    # pred_model_path = CLSConfig().best_model_path
 
-    # input_text1 = '若泽·萨尔内的总统是谁？'
-    # input_text2 = '若泽·萨尔内总统'
+    # # input_text1 = '若泽·萨尔内的总统是谁？'
+    # # input_text2 = '若泽·萨尔内总统'
 
-    input_text1 = ['若泽·萨尔内的总统是谁？', '闻一多全集是哪个出版社出版的？', '闻一多全集是哪个出版社出版的？', ]
-    input_text2 = ['若泽·萨尔内总统', '闻一多全集出版社', '闻一多全集出版时间', ]
+    # input_text1 = ['若泽·萨尔内的总统是谁？', '闻一多全集是哪个出版社出版的？', '闻一多全集是哪个出版社出版的？', ]
+    # input_text2 = ['若泽·萨尔内总统', '闻一多全集出版社', '闻一多全集出版时间', ]
 
-    pred_results = predict(pred_model_path, input_text1, input_text2)
-    print(pred_results)
-    test_data = ['朱光潜逝世的信息都有哪些？	朱光潜逝世	1','谁学习了奥古斯特·威廉·冯·霍夫曼的精神？	奥古斯特·威廉·冯·霍夫曼奥古斯特·威廉·冯·霍夫曼	0','中国羽毛球运动员陈其遒是在哪一年宣布结束自己职业生涯的	陈其遒退役	1','林弯弯在圈内的知己都有哪些？	林弯弯圈内好友	1','日本的三浦亚沙妃从事AV女优的年限是什么时候	三浦亚沙妃从事年期	1','安德鲁·约翰逊在什么地方死亡的？	安德鲁·约翰逊逝世地点	1','英国上映过爱德华·诺顿的哪些作品？	爱德华·诺顿代表作	0','谁是尤二姐的妹子	尤二姐姐姐	0','杨春在梁山中担任是什么职位？	杨春职 业	0','什么休闲活动是余男最爱的？	余男爱好	0','迈克尔·里德所属的联盟是什么？	迈克尔·里德联盟	1','我最近在了解一个叫李庆长的人，他也叫李庆长，他的外文名是Li Qingchang，他是中国人，是汉族。他在黑龙江省哈尔滨出生，他的职业是李庆长共产党员服务队队长，他的籍贯在哈尔滨，你能告诉我他的政党吗？	李庆长籍贯	0','纪宝如孩子的名字分别是什么？	纪宝如中文名	0','哪种味道是谭小环最喜欢的？	谭小环嗜好	0','哪个地方是罗嘉良最喜欢去的？	罗嘉良出道地区	0','高文强的专辑时长是多少？	高文强专辑时长	1','史密斯是在什么时候上映的？	大卫·哈特·斯密斯出生日期	0','时缟晴人属于哪个社团的？	时缟晴人同伴	0','穆罕默德·阿里有几次是因击倒对手而获胜的	穆罕默德·阿里(穆斯林君主)主要成就	0','阿兰苏比亚在球队的号码是多少	阿兰苏比亚俱乐部号码	1']
-    total = 0 
-    right = 0 
-    for d in test_data: 
-        query =d.split('\t')[0]
-        attr = d.split('\t')[1]
-        label = int(d.split('\t')[-1])
-        pred = int(predict([question], [attr])[0])
-        total+=1
-        if pred==label:
-            right+=1
-    print(float(right)/total)
+    # pred_results = predict(pred_model_path, input_text1, input_text2)
+    # print(pred_results)
+    # test_data = ['朱光潜逝世的信息都有哪些？	朱光潜逝世	1','谁学习了奥古斯特·威廉·冯·霍夫曼的精神？	奥古斯特·威廉·冯·霍夫曼奥古斯特·威廉·冯·霍夫曼	0','中国羽毛球运动员陈其遒是在哪一年宣布结束自己职业生涯的	陈其遒退役	1','林弯弯在圈内的知己都有哪些？	林弯弯圈内好友	1','日本的三浦亚沙妃从事AV女优的年限是什么时候	三浦亚沙妃从事年期	1','安德鲁·约翰逊在什么地方死亡的？	安德鲁·约翰逊逝世地点	1','英国上映过爱德华·诺顿的哪些作品？	爱德华·诺顿代表作	0','谁是尤二姐的妹子	尤二姐姐姐	0','杨春在梁山中担任是什么职位？	杨春职 业	0','什么休闲活动是余男最爱的？	余男爱好	0','迈克尔·里德所属的联盟是什么？	迈克尔·里德联盟	1','我最近在了解一个叫李庆长的人，他也叫李庆长，他的外文名是Li Qingchang，他是中国人，是汉族。他在黑龙江省哈尔滨出生，他的职业是李庆长共产党员服务队队长，他的籍贯在哈尔滨，你能告诉我他的政党吗？	李庆长籍贯	0','纪宝如孩子的名字分别是什么？	纪宝如中文名	0','哪种味道是谭小环最喜欢的？	谭小环嗜好	0','哪个地方是罗嘉良最喜欢去的？	罗嘉良出道地区	0','高文强的专辑时长是多少？	高文强专辑时长	1','史密斯是在什么时候上映的？	大卫·哈特·斯密斯出生日期	0','时缟晴人属于哪个社团的？	时缟晴人同伴	0','穆罕默德·阿里有几次是因击倒对手而获胜的	穆罕默德·阿里(穆斯林君主)主要成就	0','阿兰苏比亚在球队的号码是多少	阿兰苏比亚俱乐部号码	1']
+    # total = 0 
+    # right = 0 
+    # for d in test_data: 
+    #     query =d.split('\t')[0]
+    #     attr = d.split('\t')[1]
+    #     label = int(d.split('\t')[-1])
+    #     pred = int(predict([question], [attr])[0])
+    #     total+=1
+    #     if pred==label:
+    #         right+=1
+    # print(float(right)/total)
