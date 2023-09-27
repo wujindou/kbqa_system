@@ -183,17 +183,17 @@ def pipeline_predict(question,return_candidate_triples=True):
         return best_triple,best_answer,ner_results,candidate_entities,predict_triples,candidate_triples
         
 
-# question ='马云的老婆是谁？'
-# pipeline_predict(question)
-# writer = open('/kaggle/working/test_multi_ner_merge_0921.json','a+',encoding='utf-8')
-# train_data = json.load(open('./data/test_multi_0921.json','r',encoding='utf-8'))
-# # test_queries = set([line.strip() for line in open('./data/test_chatqwen_0912.txt','r',encoding='utf-8')])
-# from tqdm import tqdm 
-# for t_idx,d in enumerate(tqdm(train_data)):
-#     q_id = d['id']
-#     # if d['question'] not in test_queries:continue 
-#     t_triple,t_answer,ner,candidate_entities,predict_triples,candidate_triples= pipeline_predict(d['question'])
-#     d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples,'candidate_triples':candidate_triples}
-#     gc.collect()
-#     writer.write(json.dumps(d,ensure_ascii=False)+'\n')
-# writer.close()
+question ='马云的老婆是谁？'
+pipeline_predict(question)
+writer = open('/kaggle/working/test_multi_ner_merge_0928.json','a+',encoding='utf-8')
+train_data = json.load(open('./data/multi_test_0928.json','r',encoding='utf-8'))
+# test_queries = set([line.strip() for line in open('./data/test_chatqwen_0912.txt','r',encoding='utf-8')])
+from tqdm import tqdm 
+for t_idx,d in enumerate(tqdm(train_data)):
+    q_id = d['id']
+    # if d['question'] not in test_queries:continue 
+    t_triple,t_answer,ner,candidate_entities,predict_triples,candidate_triples= pipeline_predict(d['question'])
+    d['result'] = {'triple':t_triple,'best_answer':t_answer,'ner_result':list(ner),'candidate_entities':candidate_entities,'predict_triples':predict_triples,'candidate_triples':candidate_triples}
+    gc.collect()
+    writer.write(json.dumps(d,ensure_ascii=False)+'\n')
+writer.close()
