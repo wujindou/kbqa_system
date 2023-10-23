@@ -58,8 +58,8 @@ cls_config = CLSConfig()
 ner_config.best_model_path='/kaggle/input/kbqadata/kbqa_ernie_ner_best.pdparams'
 cls_config.best_model_path='/kaggle/input/kbqadata/kbqa_ernie_cls_best.pdparams'
 #old model 
-# ner_config.best_model_path='/kaggle/input/kbqadata/ernie_ner_best.pdparams'
-# cls_config.best_model_path='/kaggle/input/kbqadata/ernie_cls_best.pdparams'
+ner_config.best_model_path='/kaggle/input/kbqadata/ernie_ner_best.pdparams'
+cls_config.best_model_path='/kaggle/input/kbqadata/ernie_cls_best.pdparams'
 ner_model,ner_tokenizer = load_ner_model(ner_config.best_model_path)
 ner_model_v1,ner_tokenizer_v1 = load_ner_model('/kaggle/input/kbqadata/ernie_ner_best.pdparams')
 cls_model,cls_tokenizer = load_cls_model(cls_config.best_model_path)
@@ -188,7 +188,7 @@ def pipeline_predict(question,return_candidate_triples=True):
 
 question ='马云的老婆是谁？'
 pipeline_predict(question)
-writer = open('/kaggle/working/test_data_result_1023.json','a+',encoding='utf-8')
+writer = open('/kaggle/working/test_data_result_1023_old.json','a+',encoding='utf-8')
 train_data = json.load(open('./test_data_B.json','r',encoding='utf-8'))
 # test_queries = set([line.strip() for line in open('./data/test_chatqwen_0912.txt','r',encoding='utf-8')])
 from tqdm import tqdm 
